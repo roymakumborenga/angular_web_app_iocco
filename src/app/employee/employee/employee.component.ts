@@ -52,7 +52,7 @@ export class EmployeeComponent implements OnInit {
 
       } else { // Existing. PUT
         this.apiService.UpdateItem(this.personObj.personId, this.personObj, 'People').subscribe((data) => {
-          this.apiService.UpdateItem(this.employeeObj.employeeId, this.employeeObj, 'Employees').subscribe((data) => {
+          this.apiService.UpdateItem(this.employeeObj.employeeId, this.employeeObj, 'Employees').subscribe((dataE) => {
             alert('Action was completed successfully');
             location.reload();
           });
@@ -60,7 +60,7 @@ export class EmployeeComponent implements OnInit {
       }
    }
 
-   //will need to redo the http interceptor to allow 404 to create a more sensible id generator
+   //will need to redo the http interceptor in order to create a more sensible id generator
    // by checking database fo non existent keys instead
   private generateId(entity){
     let crntDate = new Date();
@@ -88,8 +88,22 @@ export class EmployeeComponent implements OnInit {
   private getComponentData() {
     this.dtOptions = {
       // pagingType: 'full_numbers',
-      pageLength: 10
+      pageLength: 10,
       // processing: true
+      rowCallback: (row: Node, data: any[] | object, index: number) => {
+        const self = this;
+        // Unbind first in order to avoid any duplicate handler. better alternative is ng one
+        $('td', row).unbind('click');
+        $('td', row).bind('click', () => {
+          if ($(row).hasClass('selected')) {
+           $(row).removeClass('selected');
+          } else {
+          $(row).parent().children('tr').removeClass('selected');
+          $(row).addClass('selected');
+        }
+        });
+        // return row;
+      }
     };
 
     this.getAllEmployees();
@@ -120,12 +134,8 @@ export class EmployeeComponent implements OnInit {
         for (let key of Object.keys(this.personObj)) {
           if (key.includes('Date')) {
            let dateVar = new Date(data.birthDate);
-           console.log(dateVar);
            this.personObj[key] = {year: dateVar.getFullYear(), month: dateVar.getMonth() + 1, day: dateVar.getDate()};
           }
-
-          // special exception
-          // document.getElementById('birthDateLb').va
         }
       });
     }
