@@ -1,0 +1,101 @@
+<div class="container-wide mt-5">
+  <div class="row">
+    <div class="col-md-7 col-sm-7 col-xs-12 pt-2">
+    <div class="row mb-2">
+      <div class="col-md-3 col-sm-4 col-xs-12"><h5>Employee Database</h5></div>
+      <div class="col-md-3 offset-md-6 col-sm-4 offset-md-4 col-xs-12"><a href="#" class="btn btn-primary" style="width:100%"><i class="fa fa-user-plus" aria-hidden="true"></i> Add Employee</a></div>
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12 pt-2 card">
+      <table class="table table-hover" width="100%" datatable [dtOptions]="dtOptions" *ngIf="this.loadCheck">
+        <thead>
+          <tr>
+            <th>Person ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Birth Date</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let person of people" (click)="onSelectedPerson(person)">
+            <td>{{person.personId}}</td>
+            <td>{{person.firstName}}</td>
+            <td>{{person.lastName}}</td>
+            <td>{{person.birthDate}}</td>
+            <td class="table-icons" (click)="onSelectedEdit(person,content)"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+            <td class="table-icons"><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+    <div class="col-md-5 col-sm-5 col-xs-12 pt-2">
+      <div class="row mb-2">
+      <div class="col-md-3 col-sm-4 col-xs-12"><h5>Details</h5></div>
+     </div>
+    <div class="col-md-12 col-sm-12 col-xs-12 pt-2 card">
+       <div class="row">
+         <div class="col-md-12 col-sm-12 col-xs-12"><label for="employeeIdLb">Employee Id</label><input id="employeeIdLb" class="form-control" placeholder="" name="employeeIdLb" type="text" required readonly [(ngModel)]="employeeObj.employeeId"></div>
+         <div class="col-md-12 col-sm-12 col-xs-12"><label for="employeeNumberLb">Employee Number</label><input id="employeeNumberLb" class="form-control" placeholder="" name="employeeNumberLb" type="text" required readonly [(ngModel)]="employeeObj.employeeNumber"></div>
+         <div class="col-md-12 col-sm-12 col-xs-12"><label for="employedDateLb">Employed Date</label><input id="employedDateLb" class="form-control" placeholder="" name="employedDateLb" type="text" required readonly [(ngModel)]="employeeObj.employedDate"></div>
+         <div class="col-md-12 col-sm-12 col-xs-12"><label for="terminatedDateLb">Terminated Date</label><input id="terminatedDateLb" class="form-control" placeholder="" name="terminatedDateLb" type="text" required readonly [(ngModel)]="employeeObj.terminatedDate"></div>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Employee</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="employeeId">Employee Id</label>
+        <div class="input-group">
+          <input id="employeeId" class="form-control" placeholder="employee id" name="employeeId" type="number" required [(ngModel)]="employeeObj.employeeId">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Person Id</label>
+        <div class="input-group">
+         <select class="form-control">
+           <option value="" selected>Select person id</option>
+         </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="employeeNumber">Employee No</label>
+        <div class="input-group">
+          <input id="employeeNumber" class="form-control" placeholder="employee id" name="employeeNumber" type="text" required [(ngModel)]="employeeObj.employeeNumber">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="employedDate">Date Employed</label>
+        <div class="input-group">
+          <input id="employedDate" class="form-control" placeholder="yyyy-mm-dd" name="employedDate" ngbDatepicker #employedDate="ngbDatepicker" required [(ngModel)]="employeeObj.employedDate">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="employedDate.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="terminatedDate">Date Terminated</label>
+        <div class="input-group">
+          <input id="terminatedDate" class="form-control" placeholder="yyyy-mm-dd" name="terminatedDate" ngbDatepicker #terminatedDate="ngbDatepicker" required [(ngModel)]="employeeObj.terminatedDate">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="terminatedDate.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div>
+</ng-template>

@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+.table{
+  text-align: center;
+  cursor: pointer;
+  }
+  .table-icons:hover{
+  background-color: rgb(180, 198, 231);
+  }
+  .container-wide {
+    width: 90%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin: auto;
+
+}

@@ -1,0 +1,166 @@
+<div class="container-wide mt-5">
+  <div class="row">
+    <div class="col-md-7 col-sm-7 col-xs-12 pt-2">
+    <div class="row mb-2">
+      <div class="col-md-3 col-sm-4 col-xs-12"><h5>Employee Database</h5></div>
+      <div class="col-md-3 offset-md-6 col-sm-4 offset-md-4 col-xs-12"><a href="#" class="btn btn-primary" style="width:100%" (click)="onSelectedAdd(content)"><i class="fa fa-user-plus" aria-hidden="true"></i> Add Employee</a></div>
+    </div>
+    <div class="col-md-12 col-sm-12 col-xs-12 pt-2 card">
+      <table class="table table-hover" width="100%" datatable [dtOptions]="dtOptions" *ngIf="this.loadCheck">
+        <thead>
+          <tr>
+            <th>Employee ID</th>
+            <th>Person ID</th>
+            <th>Employee No</th>
+            <th>Date Employed</th>
+            <th>Date Terminated</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees" (click)="onSelectedEmployee(employee)">
+            <td>{{employee["employeeId"]}}</td>
+            <td>{{employee["personId"]}}</td>
+            <td>{{employee["employeeNumber"]}}</td>
+            <td>{{employee["employedDate"]}}</td>
+            <td>{{employee["terminatedDate"]}}</td>
+            <td class="table-icons" (click)="onSelectedEdit(content)"><i class="fa fa-pencil" aria-hidden="true"></i></td>
+            <td class="table-icons" (click)="onDeleteItem(delete)"><i class="fa fa-trash-o" aria-hidden="true"></i></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+    <div class="col-md-5 col-sm-5 col-xs-12 pt-2">
+      <div class="row mb-2">
+      <div class="col-md-3 col-sm-4 col-xs-12"><h5>Details</h5></div>
+     </div>
+    <div class="col-md-12 col-sm-12 col-xs-12 pt-2 card">
+       <div class="row">
+         <div class="col-md-12 col-sm-12 col-xs-12 mb-4"><label for="personIdLb">Person Id</label><input id="personIdLb" class="form-control" placeholder="" name="personIdLb" type="text" required readonly [(ngModel)]="personObj.personId"></div>
+         <div class="col-md-12 col-sm-12 col-xs-12 mb-4"><label for="firstNameLb">First Name</label><input id="firstNameLb" class="form-control" placeholder="" name="firstNameLb" type="text" required readonly [(ngModel)]="personObj.firstName"></div>
+         <div class="col-md-12 col-sm-12 col-xs-12 mb-4"><label for="lastNameLb">Last name</label><input id="lastNameLb" class="form-control" placeholder="" name="lastNameLb" type="text" required readonly [(ngModel)]="personObj.lastName"></div>
+         <div class="col-md-12 col-sm-12 col-xs-12 mb-4">
+           <label for="birthDateLb">Birth Date</label>
+           <div class="form-group">
+            <label for="birthDateLb">Date of Birth</label>
+            <div class="input-group hidden">
+              <input id="birthDateLb" class="form-control" placeholder="yyyy-mm-dd" name="birthDateLb" ngbDatepicker #birthDateLb="ngbDatepicker" [(ngModel)]="personObj.birthDate" readonly>
+            </div>
+          </div>
+           <!--input id="birthDateLb" class="form-control" placeholder="" name="birthDateLb" type="text" required readonly [(ngModel)]="personObj.birthDate"-->
+          </div>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add Employee</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+      <div class="form-group">
+        <label for="employeeId">Employee Id</label>
+        <div class="input-group">
+          <input id="employeeId" class="form-control" placeholder="employee id" name="employeeId" type="number" readonly [(ngModel)]="employeeObj.employeeId">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Person Id</label>
+        <div class="input-group">
+          <input id="personId" class="form-control" placeholder="person id" name="personId" type="number" readonly [(ngModel)]="personObj.personId">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">First Name</label>
+        <div class="input-group">
+          <input id="firstName" class="form-control" #firstName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && firstName.invalid }" placeholder="first name" name="firstName" type="text" required [(ngModel)]="personObj.firstName">
+          <div *ngIf="f.submitted && firstName.invalid" class="invalid-feedback">
+            <div *ngIf="firstName.errors.required">First name is required</div>
+        </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Last Name</label>
+        <div class="input-group">
+          <input id="lastName" class="form-control" #lastName="ngModel" [ngClass]="{ 'is-invalid': f.submitted && lastName.invalid }" placeholder="last name" name="lastName" type="text" required [(ngModel)]="personObj.lastName">
+          <div *ngIf="f.submitted && lastName.invalid" class="invalid-feedback">
+            <div *ngIf="lastName.errors.required">Last name is required</div>
+        </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="birthDate">Date of Birth</label>
+        <div class="input-group">
+          <input id="birthDate" class="form-control" #birthDate1="ngModel" [ngClass]="{ 'is-invalid': f.submitted && birthDate.invalid }" placeholder="yyyy-mm-dd" name="birthDate" ngbDatepicker #birthDate="ngbDatepicker" required [(ngModel)]="personObj.birthDate">
+          <div *ngIf="f.submitted && birthDate1.invalid" class="invalid-feedback">
+            <div *ngIf="birthDate1.errors.required">Birth date is required</div>
+        </div>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="birthDate.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="employeeNumber">Employee No</label>
+        <div *ngIf="f.submitted && employeeNumber.invalid" class="invalid-feedback">
+          <div *ngIf="employeeNumber.errors.required">Last Name is required</div>
+      </div>
+        <div class="input-group">
+          <input id="employeeNumber" class="form-control" #employeeNumber="ngModel" [ngClass]="{ 'is-invalid': f.submitted && employeeNumber.invalid }" placeholder="employee id" name="employeeNumber" type="text" required [(ngModel)]="employeeObj.employeeNumber">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="employedDate">Date Employed</label>
+        <div class="input-group">
+          <div *ngIf="f.submitted && employedDate1.invalid" class="invalid-feedback">
+            <div *ngIf="employedDate1.errors.required">Employed date is required</div>
+        </div>
+          <input id="employedDate" class="form-control" #employedDate1="ngModel" [ngClass]="{ 'is-invalid': f.submitted && employedDate.invalid }" placeholder="yyyy-mm-dd" name="employedDate" ngbDatepicker #employedDate="ngbDatepicker" required [(ngModel)]="employeeObj.employedDate">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="employedDate.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      <!--custom validation needed to ensure employed date is always before termination date-->
+      <div class="form-group">
+        <label for="terminatedDate">Date Terminated</label>
+        <div class="input-group">
+          <input id="terminatedDate" class="form-control" placeholder="yyyy-mm-dd" name="terminatedDate" ngbDatepicker #terminatedDate="ngbDatepicker" [(ngModel)]="employeeObj.terminatedDate">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="terminatedDate.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      <div class="text-center">
+        <button class="btn btn-primary form-control" type="submit">Save</button>
+    </div>
+    </form>
+  </div>
+  <!-- div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+  </div -->
+</ng-template>
+
+<ng-template #delete let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete Item?</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+     <p>Are you sure you want to delete this item?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="onDeleteItemConfirm()">Delete</button>
+  </div>
+</ng-template>
+
