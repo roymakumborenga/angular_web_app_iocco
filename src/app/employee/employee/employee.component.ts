@@ -7,7 +7,7 @@ import {ApiService} from '../../api.service';
 import {Employee} from '../../models/employee';
 import {Person} from '../../models/person';
 import { catchError } from 'rxjs/operators';
-import { stringify } from 'querystring';
+
 @Component({
   selector: 'app-employee',
   templateUrl: './employee.component.html',
@@ -60,7 +60,7 @@ export class EmployeeComponent implements OnInit {
       }
    }
 
-   //will need to redo the http interceptor in order to create a more sensible id generator
+   // will need to redo the http interceptor in order to create a more sensible id generator
    // by checking database fo non existent keys instead
   private generateId(entity){
     let crntDate = new Date();
