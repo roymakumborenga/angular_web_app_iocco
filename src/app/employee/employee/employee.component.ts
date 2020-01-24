@@ -62,7 +62,7 @@ export class EmployeeComponent implements OnInit {
 
    // will need to redo the http interceptor in order to create a more sensible id generator
    // by checking database fo non existent keys instead
-  private generateId(entity){
+   generateId(entity){
     let crntDate = new Date();
     let idCheck = true;
     let i = 0;
@@ -85,7 +85,7 @@ export class EmployeeComponent implements OnInit {
     return '';
   }
 
-  private getComponentData() {
+ getComponentData() {
     this.dtOptions = {
       // pagingType: 'full_numbers',
       pageLength: 10,
@@ -109,7 +109,7 @@ export class EmployeeComponent implements OnInit {
     this.getAllEmployees();
   }
 
-  private resetDate(object) {
+ resetDate(object) {
     for (let key of Object.keys(object)) {
       if (key.includes('Date')) {
         try {
