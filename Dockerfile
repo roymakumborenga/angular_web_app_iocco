@@ -1,11 +1,12 @@
 ### STAGE 1: Build ###
 FROM node:12.14 AS build
-WORKDIR /app
+WORKDIR /office-admin-web
 COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
+
 ### STAGE 2: Run ###
-FROM nginx:2.7.0
-COPY --from=build /app/dist/office-admin-web /usr/share/nginx/html
+FROM nginx:1.16.1
+COPY --from=build /office-admin-web/dist /usr/share/nginx/html
 
