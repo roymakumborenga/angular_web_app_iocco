@@ -1,0 +1,9 @@
+version: '3.4'
+
+services:
+  officeadminweb:v1:
+    build:
+      context: .\
+      dockerfile: Dockerfile
+      ports:
+      - 54212:80
